@@ -1,0 +1,61 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename= 'extended_beauty.css') }}"
+/>
+{% endblock %} {% block content %}
+<h1>
+  Welcome, {{ user.name }}!
+</h1>
+<div>
+  <table class="table table-hover" style="width: 300px;">
+    <thead class="thead-gray" style="width: 50px;">
+      <tr>
+        <th scope="col" >Number of Push-Ups</th>
+        <th scope="col">Performed At</th>
+        <th scope="col">Comments</th>
+        <th scope="col">Complet/No</th>
+        <th scope="col">Update</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Download</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for workout in workouts %}
+      <tr>
+        <td>{{ workout.pushups }}</td>
+        <td>{{ workout.date_posted.strftime('%m/%d/%Y') }}</td>
+        <td>{{ workout.comment }}</td>
+        <td>
+        {% if workout.complete == False %}
+        <span class="btn btn-success" style="background-color: gray;" role="button">Not Complete</span>
+        {% else %}
+        <span class="btn btn-success"style="background-color: pink;color:gray;"  role="button">Completed</span>
+        {% endif %}
+      </td>
+        <td>
+        <a class="btn btn-success" href="{{ url_for('main.update', workout_id=workout.id) }}" role="button">Update</a>
+      
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary" role="button">
+            Edit
+          </a>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-danger" role="button">
+            Delete
+          </a>
+        </td>
+        <td>
+        <a href="{{ url_for('main.get_img', workout_id=workout.id) }}" target="_blank"><button class='btn btn-default'>
+          Download!</button></a>
+
+      </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
